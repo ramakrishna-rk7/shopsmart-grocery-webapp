@@ -1,0 +1,87 @@
+<div class="container py-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="section-title mb-0">Admin Dashboard</h2>
+            <p class="section-subtitle mb-0">Welcome back, {{authService.currentUser?.name}}</p>
+        </div>
+        <span class="badge-accent py-2 px-3"><i class="fas fa-shield-alt me-1"></i>Admin Panel</span>
+    </div>
+
+    <!-- Stats -->
+    <div class="row g-4 mb-5">
+        <div class="col-6 col-md-3" *ngFor="let s of [
+      {icon:'fa-box',label:'Products',val:productCount,color:'var(--primary-light)'},
+      {icon:'fa-shopping-cart',label:'Orders',val:orderCount,color:'var(--accent)'},
+      {icon:'fa-rupee-sign',label:'Revenue',val:'₹'+totalRevenue,color:'#3498db'},
+      {icon:'fa-users',label:'Customers',val:'—',color:'#9b59b6'}
+    ]">
+            <div class="card-dark p-4">
+                <div style="font-size:2rem;margin-bottom:8px;" [style.color]="s.color">
+                    <i class="fas {{s.icon}}"></i>
+                </div>
+                <div style="font-size:1.8rem;font-weight:800;" [style.color]="s.color">{{s.val}}</div>
+                <div style="color:var(--text-muted);font-size:0.85rem;">{{s.label}}</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Nav -->
+    <div class="row g-3 mb-5">
+        <div class="col-12 col-md-6">
+            <a routerLink="/admin/products" class="card-dark d-flex align-items-center gap-3 p-4 text-decoration-none">
+                <div
+                    style="width:50px;height:50px;background:linear-gradient(135deg,var(--primary),var(--primary-light));border-radius:12px;display:flex;align-items:center;justify-content:center;">
+                    <i class="fas fa-box text-white"></i>
+                </div>
+                <div>
+                    <div style="font-weight:700;color:var(--text-main);">Manage Products</div>
+                    <div style="color:var(--text-muted);font-size:0.85rem;">Add, edit, delete grocery products</div>
+                </div>
+                <i class="fas fa-arrow-right ms-auto" style="color:var(--text-muted);"></i>
+            </a>
+        </div>
+        <div class="col-12 col-md-6">
+            <a routerLink="/admin/orders" class="card-dark d-flex align-items-center gap-3 p-4 text-decoration-none">
+                <div
+                    style="width:50px;height:50px;background:linear-gradient(135deg,var(--accent),#e6a832);border-radius:12px;display:flex;align-items:center;justify-content:center;">
+                    <i class="fas fa-shopping-cart" style="color:#1a1a1a;"></i>
+                </div>
+                <div>
+                    <div style="font-weight:700;color:var(--text-main);">Manage Orders</div>
+                    <div style="color:var(--text-muted);font-size:0.85rem;">View and update customer orders</div>
+                </div>
+                <i class="fas fa-arrow-right ms-auto" style="color:var(--text-muted);"></i>
+            </a>
+        </div>
+    </div>
+
+    <!-- Recent Orders -->
+    <div class="card-dark p-0" style="overflow:hidden;" *ngIf="recentOrders.length > 0">
+        <div class="p-4" style="border-bottom:1px solid var(--border);">
+            <h5 style="font-weight:700;margin:0;">Recent Orders</h5>
+        </div>
+        <div class="table-responsive">
+            <table class="table" style="color:var(--text-main);margin:0;">
+                <thead style="background:var(--bg-card2);color:var(--text-muted);font-size:0.85rem;">
+                    <tr>
+                        <th class="px-4 py-3">Order ID</th>
+                        <th>Customer</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let o of recentOrders" style="border-color:var(--border);">
+                        <td class="px-4 py-3" style="font-family:monospace;font-size:0.8rem;">{{o._id | slice:0:12}}...
+                        </td>
+                        <td>{{o.user?.name || 'User'}}</td>
+                        <td style="color:var(--accent);font-weight:700;">₹{{o.totalAmount}}</td>
+                        <td><span [class]="'status-'+o.orderStatus">{{o.orderStatus | titlecase}}</span></td>
+                        <td style="color:var(--text-muted);font-size:0.85rem;">{{o.createdAt | date:'dd MMM yy'}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

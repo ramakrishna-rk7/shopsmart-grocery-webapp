@@ -1,0 +1,59 @@
+<div
+    style="min-height:85vh;display:flex;align-items:center;justify-content:center;padding:40px 16px;background:radial-gradient(ellipse at top,rgba(26,122,74,0.1) 0%,transparent 60%);">
+    <div style="width:100%;max-width:420px;">
+        <div class="card-dark p-5">
+            <!-- Header -->
+            <div class="text-center mb-4">
+                <div
+                    style="width:60px;height:60px;background:linear-gradient(135deg,var(--primary),var(--primary-light));border-radius:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;">
+                    <i class="fas fa-shopping-basket text-white" style="font-size:24px;"></i>
+                </div>
+                <h2 style="font-weight:800;font-size:1.8rem;">Welcome Back</h2>
+                <p style="color:var(--text-muted);">Sign in to your ShopSmart account</p>
+            </div>
+
+            <!-- Error -->
+            <div class="alert-error-custom mb-3" *ngIf="error">
+                <i class="fas fa-exclamation-circle me-2"></i>{{error}}
+            </div>
+
+            <form [formGroup]="form" (ngSubmit)="submit()">
+                <div class="mb-3">
+                    <label class="form-label">Email Address</label>
+                    <div class="position-relative">
+                        <i class="fas fa-envelope position-absolute"
+                            style="left:14px;top:50%;transform:translateY(-50%);color:var(--text-muted);"></i>
+                        <input type="email" formControlName="email" class="form-control ps-5"
+                            placeholder="you&#64;example.com">
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <label class="form-label">Password</label>
+                    <div class="position-relative">
+                        <i class="fas fa-lock position-absolute"
+                            style="left:14px;top:50%;transform:translateY(-50%);color:var(--text-muted);"></i>
+                        <input [type]="showPass ? 'text' : 'password'" formControlName="password"
+                            class="form-control ps-5 pe-5" placeholder="••••••••">
+                        <i class="fas position-absolute" [class.fa-eye]="!showPass" [class.fa-eye-slash]="showPass"
+                            style="right:14px;top:50%;transform:translateY(-50%);color:var(--text-muted);cursor:pointer;"
+                            (click)="showPass = !showPass"></i>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary w-100 py-3" [disabled]="loading">
+                    <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
+                    <i class="fas fa-sign-in-alt me-2" *ngIf="!loading"></i>
+                    {{loading ? 'Signing In...' : 'Sign In'}}
+                </button>
+            </form>
+
+            <div class="text-center mt-4">
+                <p style="color:var(--text-muted);">Don't have an account?
+                    <a routerLink="/register" style="font-weight:600;"> Create one</a>
+                </p>
+                <p style="color:var(--text-muted);font-size:0.8rem;margin-top:8px;">
+                    Admin demo: <code style="color:var(--accent);">admin&#64;shopsmart.com / Admin&#64;123</code>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

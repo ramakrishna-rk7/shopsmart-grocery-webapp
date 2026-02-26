@@ -1,0 +1,66 @@
+<div class="container py-5">
+    <!-- Header + Search -->
+    <div class="row g-3 mb-4 align-items-center">
+        <div class="col-12 col-md-5">
+            <h2 class="section-title mb-0">Our Products</h2>
+            <p class="section-subtitle mb-0">{{products.length}} fresh items available</p>
+        </div>
+        <div class="col-12 col-md-7">
+            <div class="position-relative">
+                <i class="fas fa-search position-absolute"
+                    style="left:16px;top:50%;transform:translateY(-50%);color:var(--text-muted);"></i>
+                <input type="text" [(ngModel)]="search" (input)="onSearch()" class="form-control ps-5 py-3"
+                    placeholder="Search products...">
+            </div>
+        </div>
+    </div>
+
+    <!-- Category Chips -->
+    <div class="d-flex gap-2 flex-wrap mb-4">
+        <button *ngFor="let cat of categories" class="chip" [class.active]="selectedCategory === cat"
+            (click)="filterByCategory(cat)">
+            {{cat}}
+        </button>
+    </div>
+
+    <!-- Loading -->
+    <div class="spinner-wrap" *ngIf="loading">
+        <div class="spinner-border spinner-border-green"></div>
+    </div>
+
+    <!-- Empty -->
+    <div class="text-center py-5" *ngIf="!loading && products.length === 0">
+        <div style="font-size:4rem;margin-bottom:16px;">🔍</div>
+        <h4 style="color:var(--text-muted);">No products found</h4>
+        <p style="color:var(--text-muted);">Try a different search term or category</p>
+    </div>
+
+    <!-- Grid -->
+    <div class="row g-4" *ngIf="!loading">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3" *ngFor="let p of products">
+            <div class="product-card fade-in-up">
+                <div style="overflow:hidden;height:180px;" [routerLink]="['/products', p._id]" style="cursor:pointer;">
+                    <img [src]="p.image" [alt]="p.name" class="product-img"
+                        onerror="this.src='https://images.unsplash.com/photo-1542838132-92c53300491e?w=400'">
+                </div>
+                <div class="card-body">
+                    <span class="product-category">{{p.category}}</span>
+                    <div class="product-name mb-1 c-pointer" [routerLink]="['/products', p._id]">{{p.name}}</div>
+                    <div style="color:var(--text-muted);font-size:0.78rem;margin-bottom:8px;">Stock: {{p.stockQuantity}}
+                        {{p.unit}}s</div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="product-price">₹{{p.price}}<small
+                                style="font-size:0.65rem;color:var(--text-muted);">/{{p.unit}}</small></span>
+                        <button class="btn btn-sm px-3 py-2" [class.btn-accent]="addedId !== p._id"
+                            [class.btn-primary]="addedId === p._id" (click)="addToCart(p)"
+                            [disabled]="p.stockQuantity === 0">
+                            <i class="fas" [class.fa-cart-plus]="addedId !== p._id"
+                                [class.fa-check]="addedId === p._id"></i>
+                            {{addedId === p._id ? ' Added' : ' Add'}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

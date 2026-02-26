@@ -1,0 +1,106 @@
+<nav class="navbar navbar-expand-lg sticky-top"
+    style="background: rgba(13,24,16,0.97); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); z-index:1050;">
+    <div class="container">
+        <!-- Brand -->
+        <a class="navbar-brand d-flex align-items-center gap-2" routerLink="/">
+            <span
+                style="width:36px;height:36px;background:linear-gradient(135deg,var(--primary),var(--primary-light));border-radius:10px;display:flex;align-items:center;justify-content:center;">
+                <i class="fas fa-shopping-basket text-white" style="font-size:16px;"></i>
+            </span>
+            <span
+                style="font-size:1.4rem;font-weight:800;background:linear-gradient(135deg,var(--primary-light),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">ShopSmart</span>
+        </a>
+
+        <!-- Toggler -->
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu"
+            style="color:var(--text-main);">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navMenu">
+            <!-- Center Links -->
+            <ul class="navbar-nav mx-auto gap-1">
+                <li class="nav-item">
+                    <a class="nav-link px-3 py-2 rounded-3" routerLink="/" routerLinkActive="active"
+                        [routerLinkActiveOptions]="{exact:true}"
+                        style="color:var(--text-main);font-weight:500;transition:var(--transition);">
+                        <i class="fas fa-home me-1"></i> Home
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link px-3 py-2 rounded-3" routerLink="/products" routerLinkActive="active"
+                        style="color:var(--text-main);font-weight:500;transition:var(--transition);">
+                        <i class="fas fa-store me-1"></i> Shop
+                    </a>
+                </li>
+                <li class="nav-item" *ngIf="currentUser?.role === 'admin'">
+                    <a class="nav-link px-3 py-2 rounded-3" routerLink="/admin" routerLinkActive="active"
+                        style="color:var(--accent);font-weight:600;">
+                        <i class="fas fa-cog me-1"></i> Admin
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Right: Cart + User -->
+            <div class="d-flex align-items-center gap-3">
+                <!-- Cart -->
+                <a routerLink="/cart" class="position-relative d-flex align-items-center justify-content-center"
+                    style="width:42px;height:42px;background:var(--bg-card);border:1px solid var(--border);border-radius:12px;color:var(--text-main);transition:var(--transition);"
+                    *ngIf="currentUser">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill"
+                        style="background:var(--accent);color:#1a1a1a;font-size:0.65rem;"
+                        *ngIf="cartCount > 0">{{cartCount}}</span>
+                </a>
+
+                <!-- Guest -->
+                <ng-container *ngIf="!currentUser">
+                    <a routerLink="/login" class="btn btn-outline-primary btn-sm">Login</a>
+                    <a routerLink="/register" class="btn btn-primary btn-sm">Register</a>
+                </ng-container>
+
+                <!-- User Menu -->
+                <div class="dropdown" *ngIf="currentUser">
+                    <button class="btn d-flex align-items-center gap-2 py-2 px-3" type="button"
+                        data-bs-toggle="dropdown"
+                        style="background:var(--bg-card);border:1px solid var(--border);border-radius:12px;color:var(--text-main);">
+                        <span
+                            style="width:28px;height:28px;background:var(--primary);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;">
+                            {{currentUser.name[0].toUpperCase()}}
+                        </span>
+                        <span style="font-size:0.9rem;font-weight:500;">{{currentUser.name}}</span>
+                        <i class="fas fa-chevron-down" style="font-size:0.7rem;"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end"
+                        style="background:var(--bg-card2);border:1px solid var(--border);border-radius:12px;">
+                        <li><a class="dropdown-item" routerLink="/orders" style="color:var(--text-main);"><i
+                                    class="fas fa-box me-2"></i>My Orders</a></li>
+                        <li *ngIf="currentUser.role === 'admin'"><a class="dropdown-item" routerLink="/admin"
+                                style="color:var(--accent);"><i class="fas fa-cog me-2"></i>Admin Panel</a></li>
+                        <li>
+                            <hr class="dropdown-divider" style="border-color:var(--border);">
+                        </li>
+                        <li><button class="dropdown-item" (click)="logout()" style="color:var(--danger);"><i
+                                    class="fas fa-sign-out-alt me-2"></i>Logout</button></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<style>
+    .nav-link.active {
+        background: var(--bg-card2) !important;
+        color: var(--primary-light) !important;
+    }
+
+    .nav-link:hover {
+        background: var(--bg-card2) !important;
+        color: var(--primary-light) !important;
+    }
+
+    .dropdown-item:hover {
+        background: var(--bg-dark) !important;
+    }
+</style>

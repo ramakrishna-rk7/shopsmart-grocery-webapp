@@ -1,0 +1,77 @@
+<div class="container py-5" style="max-width:900px;">
+    <h2 class="section-title">Checkout</h2>
+
+    <div class="alert-error-custom mb-3" *ngIf="error"><i class="fas fa-exclamation-circle me-2"></i>{{error}}</div>
+
+    <div class="row g-4">
+        <!-- Address -->
+        <div class="col-12 col-md-7">
+            <div class="card-dark p-4">
+                <h5 style="font-weight:700;margin-bottom:20px;"><i class="fas fa-map-marker-alt me-2"
+                        style="color:var(--primary-light);"></i>Delivery Address</h5>
+                <form [formGroup]="form">
+                    <div class="mb-3">
+                        <label class="form-label">Street / House No.</label>
+                        <input type="text" formControlName="street" class="form-control" placeholder="123 Main St">
+                        <div class="text-danger small"
+                            *ngIf="form.get('street')?.invalid && form.get('street')?.touched">Required</div>
+                    </div>
+                    <div class="row g-2">
+                        <div class="col-6">
+                            <label class="form-label">City</label>
+                            <input type="text" formControlName="city" class="form-control" placeholder="City">
+                            <div class="text-danger small"
+                                *ngIf="form.get('city')?.invalid && form.get('city')?.touched">Required</div>
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label">State</label>
+                            <input type="text" formControlName="state" class="form-control" placeholder="State">
+                        </div>
+                    </div>
+                    <div class="mt-2">
+                        <label class="form-label">PIN Code</label>
+                        <input type="text" formControlName="pincode" class="form-control" placeholder="500001">
+                        <div class="text-danger small"
+                            *ngIf="form.get('pincode')?.invalid && form.get('pincode')?.touched">Required</div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Order Summary -->
+        <div class="col-12 col-md-5">
+            <div class="card-dark p-4">
+                <h5 style="font-weight:700;margin-bottom:16px;">Order Summary</h5>
+                <div *ngFor="let item of items" class="d-flex justify-content-between mb-2" style="font-size:0.9rem;">
+                    <span style="color:var(--text-muted);">{{item.name}} × {{item.quantity}}</span>
+                    <span>₹{{item.price * item.quantity}}</span>
+                </div>
+                <hr style="border-color:var(--border);">
+                <div class="d-flex justify-content-between mb-1" style="color:var(--text-muted);">
+                    <span>Delivery</span>
+                    <span style="color:var(--success);">{{total >= 499 ? 'FREE' : '₹49'}}</span>
+                </div>
+                <div class="d-flex justify-content-between mt-2 mb-4">
+                    <span style="font-weight:700;">Total</span>
+                    <span style="font-weight:800;font-size:1.2rem;color:var(--accent);">₹{{total >= 499 ? total : total
+                        + 49}}</span>
+                </div>
+
+                <div class="d-flex align-items-center gap-3 mb-4 p-3"
+                    style="background:rgba(46,204,113,0.08);border:1px solid rgba(46,204,113,0.2);border-radius:10px;">
+                    <i class="fas fa-shield-alt" style="color:var(--success);font-size:1.5rem;"></i>
+                    <div>
+                        <div style="font-weight:600;font-size:0.9rem;">Secure Payment</div>
+                        <div style="color:var(--text-muted);font-size:0.8rem;">100% safe & encrypted</div>
+                    </div>
+                </div>
+
+                <button class="btn btn-accent w-100 py-3" (click)="placeOrder()" [disabled]="loading">
+                    <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
+                    <i class="fas fa-check-circle me-2" *ngIf="!loading"></i>
+                    {{loading ? 'Placing Order...' : 'Place Order'}}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

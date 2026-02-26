@@ -1,0 +1,79 @@
+<div
+    style="min-height:85vh;display:flex;align-items:center;justify-content:center;padding:40px 16px;background:radial-gradient(ellipse at top,rgba(26,122,74,0.1) 0%,transparent 60%);">
+    <div style="width:100%;max-width:500px;">
+        <div class="card-dark p-5">
+            <div class="text-center mb-4">
+                <div
+                    style="width:60px;height:60px;background:linear-gradient(135deg,var(--primary),var(--primary-light));border-radius:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;">
+                    <i class="fas fa-user-plus text-white" style="font-size:24px;"></i>
+                </div>
+                <h2 style="font-weight:800;font-size:1.8rem;">Create Account</h2>
+                <p style="color:var(--text-muted);">Join ShopSmart today</p>
+            </div>
+
+            <div class="alert-error-custom mb-3" *ngIf="error"><i class="fas fa-exclamation-circle me-2"></i>{{error}}
+            </div>
+
+            <form [formGroup]="form" (ngSubmit)="submit()">
+                <div class="mb-3">
+                    <label class="form-label">Full Name</label>
+                    <div class="position-relative">
+                        <i class="fas fa-user position-absolute"
+                            style="left:14px;top:50%;transform:translateY(-50%);color:var(--text-muted);"></i>
+                        <input type="text" formControlName="name" class="form-control ps-5" placeholder="John Doe">
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Email Address</label>
+                    <div class="position-relative">
+                        <i class="fas fa-envelope position-absolute"
+                            style="left:14px;top:50%;transform:translateY(-50%);color:var(--text-muted);"></i>
+                        <input type="email" formControlName="email" class="form-control ps-5"
+                            placeholder="you@example.com">
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Password</label>
+                    <div class="position-relative">
+                        <i class="fas fa-lock position-absolute"
+                            style="left:14px;top:50%;transform:translateY(-50%);color:var(--text-muted);"></i>
+                        <input [type]="showPass ? 'text' : 'password'" formControlName="password"
+                            class="form-control ps-5 pe-5" placeholder="Min. 6 characters">
+                        <i class="fas position-absolute" [class.fa-eye]="!showPass" [class.fa-eye-slash]="showPass"
+                            style="right:14px;top:50%;transform:translateY(-50%);color:var(--text-muted);cursor:pointer;"
+                            (click)="showPass=!showPass"></i>
+                    </div>
+                </div>
+
+                <hr style="border-color:var(--border);margin:20px 0;">
+                <p style="color:var(--text-muted);font-size:0.85rem;margin-bottom:12px;">📍 Delivery Address (Optional)
+                </p>
+                <div class="row g-2">
+                    <div class="col-12">
+                        <input type="text" formControlName="street" class="form-control"
+                            placeholder="Street / House No.">
+                    </div>
+                    <div class="col-6">
+                        <input type="text" formControlName="city" class="form-control" placeholder="City">
+                    </div>
+                    <div class="col-6">
+                        <input type="text" formControlName="state" class="form-control" placeholder="State">
+                    </div>
+                    <div class="col-12">
+                        <input type="text" formControlName="pincode" class="form-control" placeholder="PIN Code">
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100 py-3 mt-4" [disabled]="loading">
+                    <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
+                    {{loading ? 'Creating Account...' : 'Create Account'}}
+                </button>
+            </form>
+
+            <div class="text-center mt-4">
+                <p style="color:var(--text-muted);">Already have an account? <a routerLink="/login"
+                        style="font-weight:600;">Sign In</a></p>
+            </div>
+        </div>
+    </div>
+</div>
